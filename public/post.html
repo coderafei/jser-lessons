@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>发朋友圈状态</title>
+</head>
+<body>
+  <div id="app">
+      <div>
+          姓名：<input
+                 v-model="name"
+                 type="text"
+               >
+      </div>
+      <div>
+          内容：<textarea
+                  v-model="content"
+                  name=""
+                  id="" 
+                  cols="30"
+                  rows="10"
+                ></textarea>
+      </div>
+      
+      <div>
+          <input @click="submit" type="submit" value="提交" >
+      </div>
+  </div>
+
+  <script src="https://files.jser.im/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        name: '',
+        content: ''
+      },
+      methods: {
+        submit: function() {
+          axios.post('/createMoment', {name: this.name, content: this.content}).then(function (response) {
+            var result = response.data;
+            if (result.message === 'ok') {
+              location.href = '/index.html';
+            }
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

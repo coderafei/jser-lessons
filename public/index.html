@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>朋友圈</title>
+  <style>
+    .container{
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div>
+      <button @click="post" id="post">发消息</button>
+    </div>
+    <div v-for="moment in moments" class="container">
+      <div class="name">{{moment.name}}</div>
+      <div class="content">{{moment.content}}</div>
+    </div>
+  </div>
+
+  <script src="https://files.jser.im/vue.js"></script>
+  <script src="https://files.jser.im/jquery.js"></script>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        moments: []
+      },
+      methods: {
+        post: function (req, res) {
+          location.href = '/post.html';
+        }
+      }
+    });
+    $.get('/moments', function (moments) {
+      app.moments = moments.reverse();
+    });
+  </script>
+</body>
+</html>
