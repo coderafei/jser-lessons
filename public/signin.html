@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>登录</title>
+</head>
+<body>
+  <div id="app">
+      用户名: <input v-model="username" type="text"> <br>
+      密码: <input v-model="password" type="password"> <br>
+      <input @click="signin" type="submit" value="确定">
+  </div>
+
+  <script src="https://files.jser.im/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        username: '',
+        password: ''
+      },
+      methods: {
+        signin: function () {
+          console.log(this.username);
+          console.log(this.password);
+          axios.post('/signin', {username: this.username, password: this.password}).then(function (response) {
+            alert(response.data.message);
+          })
+        }
+      }
+    });
+  </script>
+</body>
+</html>
