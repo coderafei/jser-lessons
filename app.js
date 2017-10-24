@@ -1,13 +1,23 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 var app = express();
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 var moments = [];
 var users = [];
+
+app.get('/cookie', function (req, res) {
+  console.log(req.cookies);
+
+  res.cookie('name', 'jser');
+
+  res.end('ok');
+});
 
 app.post('/signup', function (req, res) {
   var username = req.body.username;
@@ -34,6 +44,11 @@ app.post('/signin', function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
 
+  if (req.cookies.name === username) {
+    res.json({message: '你已经登录了'});
+    return;
+  }
+
   var isPasswrodCorrect = false;
 
   users.forEach(function (user) {
@@ -43,6 +58,7 @@ app.post('/signin', function (req, res) {
   });
 
   if (isPasswrodCorrect) {
+    res.cookie('name', username);
     res.json({message: '登录成功'});
   } else {
     res.json({message: '登录失败'});
@@ -50,7 +66,7 @@ app.post('/signin', function (req, res) {
 });
 
 app.post('/createMoment', function (req, res) {
-  var name = req.body.name;
+  var name = req.cookies.name;
   var content = req.body.content;
 
   moments.push({
@@ -62,6 +78,7 @@ app.post('/createMoment', function (req, res) {
 });
 
 app.get('/moments', function (req, res) {
+  console.log(req.cookies);
   res.json(moments);
 });
 

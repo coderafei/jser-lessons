@@ -9,12 +9,6 @@
 <body>
   <div id="app">
       <div>
-          姓名：<input
-                 v-model="name"
-                 type="text"
-               >
-      </div>
-      <div>
           内容：<textarea
                   v-model="content"
                   name=""
@@ -35,12 +29,11 @@
     new Vue({
       el: '#app',
       data: {
-        name: '',
         content: ''
       },
       methods: {
         submit: function() {
-          axios.post('/createMoment', {name: this.name, content: this.content}).then(function (response) {
+          axios.post('/createMoment', {content: this.content}).then(function (response) {
             var result = response.data;
             if (result.message === 'ok') {
               location.href = '/index.html';
